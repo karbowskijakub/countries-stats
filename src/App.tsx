@@ -1,51 +1,24 @@
-import React, { useEffect, useState } from "react";
-import Header from "./layout/Header";
+import React from "react";
 import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
 } from "@apollo/client";
+import Main from "./main";
 
 const client = new ApolloClient({
-  uri: "https://countries.trevorblades.com/graphql",
-  cache: new InMemoryCache(),
+    uri: "https://countries.trevorblades.com/graphql",
+    cache: new InMemoryCache(),
 });
 
-const GET_DATA = gql`
-query GetCountry {
-  country(code: "BR") {
-    name
-    native
-    capital
-    emoji
-    currency
-    languages {
-      code
-      name
-    }
-  }
-}
-`;
 
 const App = () => {
-  const [country, setCountry] = useState();
-
-  const { error, data, loading } = useQuery(GET_DATA, { client });
-  useEffect(() => {
-    data && setCountry(data);
-  });
-
-  return (
-    <ApolloProvider client={client}>
-      <>
-        {loading && "Loading"}
-        {error && "error"}
-        <Header />
-      </>
-    </ApolloProvider>
-  );
+    return (
+        <ApolloProvider client={client}>
+            <Main />
+        </ApolloProvider>
+    );
 };
 
 export default App;
+
